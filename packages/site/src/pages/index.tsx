@@ -1,12 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
-import {
-  connectSnap,
-  getSnap,
-  sendHello,
-  shouldDisplayReconnectButton,
-} from '../utils';
+import { connectSnap, getSnap, shouldDisplayReconnectButton } from '../utils';
 import {
   ConnectButton,
   InstallFlaskButton,
@@ -99,6 +94,15 @@ const ErrorMessage = styled.div`
   }
 `;
 
+enum TransactionConstants {
+  // The address of an arbitrary contract that will reject any transactions it receives
+  Address = '0x08A8fDBddc160A7d5b957256b903dCAb1aE512C5',
+  // Some example encoded contract transaction data
+  UpdateWithdrawalAccount = '0x83ade3dc00000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000047170ceae335a9db7e96b72de630389669b334710000000000000000000000006b175474e89094c44da98b954eedeac495271d0f',
+  UpdateMigrationMode = '0x2e26065e0000000000000000000000000000000000000000000000000000000000000000',
+  UpdateCap = '0x85b2c14a00000000000000000000000047170ceae335a9db7e96b72de630389669b334710000000000000000000000000000000000000000000000000de0b6b3a7640000',
+}
+
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
 
@@ -119,7 +123,23 @@ const Index = () => {
 
   const handleSendHelloClick = async () => {
     try {
-      await sendHello();
+      const [from] = (await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      })) as string[];
+
+      if(!from) {
+        throw new Error('No account selected');
+      }
+
+      await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from,
+          to: TransactionConstants.Address,
+          value: '0x0',
+          data: TransactionConstants.UpdateWithdrawalAccount,
+        }]
+      })
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
