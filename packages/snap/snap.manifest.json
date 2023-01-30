@@ -4,7 +4,7 @@
   "proposedName": "MetaMask Gas Fee predictor",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aritroCoder/transaction-insights"
+    "url": "https://github.com/aritroCoder/transaction-insights.git"
   },
   "source": {
     "shasum": "b+VjwbEuocOy0JTGl6tHCjQ/rAgdG6MwAq9Rl5mQigI=",
