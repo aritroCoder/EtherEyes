@@ -1,11 +1,11 @@
 {
   "name": "snap",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "The 'Hello, world!' of MetaMask Snaps, now written in TypeScript.",
+  "description": "An gas fee estimation Snap written in TypeScript.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/aritroCoder/transaction-insights.git"
   },
   "license": "(MIT-0 OR Apache-2.0)",
   "main": "src/index.ts",
