@@ -1,9 +1,5 @@
 import { OnTransactionHandler } from '@metamask/snap-types';
-import {
-  hasProperty,
-  isObject,
-  Json,
-} from '@metamask/utils';
+import { hasProperty, isObject, Json } from '@metamask/utils';
 
 // The API endpoint.
 const MODEL_API_ENDPOINT = 'http://localhost:5000/';
