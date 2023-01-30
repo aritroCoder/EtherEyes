@@ -2,7 +2,7 @@ import { OnTransactionHandler } from '@metamask/snap-types';
 import { hasProperty, isObject, Json } from '@metamask/utils';
 
 // The API endpoint.
-const MODEL_API_ENDPOINT = 'http://localhost:5000/';
+const MODEL_API_ENDPOINT = 'http://127.0.0.1:5000/';
 const CURRENT_DATA_ENDPOINT = 'https://api.owlracle.info/v3/eth/gas?accept=70';
 
 export const onTransaction: OnTransactionHandler = async ({ transaction }) => {

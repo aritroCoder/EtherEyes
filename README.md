@@ -82,3 +82,8 @@ The project follows the same release process as the other libraries in the MetaM
     "files": ["./node_modules/@metamask/snap-types/global.d.ts"]
   }
   ```
+- To use testing python server: run (you need environments like conda)
+```bash
+pip install "fastapi[all]"
+uvicorn fastserver:app --reload
+```
