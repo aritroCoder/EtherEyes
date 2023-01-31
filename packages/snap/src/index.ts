@@ -1,11 +1,60 @@
-import { OnTransactionHandler } from '@metamask/snap-types';
+import {
+  OnTransactionHandler,
+  OnRpcRequestHandler,
+} from '@metamask/snap-types';
 import { hasProperty, isObject, Json } from '@metamask/utils';
 
 // The API endpoint.
 const MODEL_API_ENDPOINT = 'http://127.0.0.1:5000/';
 const CURRENT_DATA_ENDPOINT = 'https://api.owlracle.info/v3/eth/gas?accept=70';
 
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  origin,
+  request,
+}) => {
+  switch (request.method) {
+    case 'hello': {
+      return 'world!';
+    }
+
+    case 'get_state': {
+      let state = await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      });
+      if (!state) {
+        state = { txnData: [] };
+        // initialize state if empty and set default data
+        await wallet.request({
+          method: 'snap_manageState',
+          params: ['update', state],
+        });
+      }
+      return state;
+    }
+
+    default: {
+      throw new Error('Method not found.');
+    }
+  }
+};
+
 export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
+  let state = await wallet.request({
+    method: 'snap_manageState',
+    params: ['get'],
+  });
+
+  if (!state) {
+    state = { txnData: [] };
+    // initialize state if empty and set default data
+    await wallet.request({
+      method: 'snap_manageState',
+      params: ['update', state],
+    });
+  }
+
   const insights: { type: string; params?: Json } = {
     type: 'Gas Fee estimation',
   };
@@ -18,6 +67,19 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
     console.warn('unknown transaction type');
     return { insights };
   }
+
+  // update the state with current transactions
+  (state as any).txnData.push({
+    from: transaction.from,
+    to: transaction.to,
+    value: transaction.value,
+    timestamp: Date.now(),
+  });
+
+  await wallet.request({
+    method: 'snap_manageState',
+    params: ['update', state],
+  });
 
   const response = await fetch(`${MODEL_API_ENDPOINT}`, {
     method: 'get',

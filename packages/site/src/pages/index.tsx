@@ -9,6 +9,7 @@ import {
   SendHelloButton,
   Card,
 } from '../components';
+import { defaultSnapOrigin } from '../config';
 
 const Container = styled.div`
   display: flex;
@@ -121,29 +122,46 @@ const Index = () => {
     }
   };
 
-  const handleSendHelloClick = async () => {
+  const handleSendTxn = async () => {
     try {
       const [from] = (await window.ethereum.request({
         method: 'eth_requestAccounts',
       })) as string[];
 
-      if(!from) {
+      if (!from) {
         throw new Error('No account selected');
       }
 
       await window.ethereum.request({
+        // This txn should fail
         method: 'eth_sendTransaction',
-        params: [{
-          from,
-          to: TransactionConstants.Address,
-          value: '0x0',
-          data: TransactionConstants.UpdateWithdrawalAccount,
-        }]
-      })
+        params: [
+          {
+            from,
+            to: TransactionConstants.Address,
+            value: '0x0',
+            data: TransactionConstants.UpdateWithdrawalAccount,
+          },
+        ],
+      });
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
+  };
+
+  const handleGetState = async () => {
+    const result = await window.ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: [
+        defaultSnapOrigin,
+        {
+          method: 'get_state',
+        },
+      ],
+    });
+
+    console.log(result); 
   };
 
   return (
@@ -205,12 +223,31 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
+            title: 'Send Transaction',
             description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+              'Display a custom txn within a confirmation screen in MetaMask.',
             button: (
               <SendHelloButton
-                onClick={handleSendHelloClick}
+                onClick={handleSendTxn}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Get Snap state',
+            description:
+              'Display the list of persistently stored states over snap',
+            button: (
+              <SendHelloButton
+                onClick={handleGetState}
                 disabled={!state.installedSnap}
               />
             ),
