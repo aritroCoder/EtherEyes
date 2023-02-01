@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { MetamaskState } from '../hooks';
 import { ReactComponent as FlaskFox } from '../assets/flask_fox.svg';
 import { shouldDisplayReconnectButton } from '../utils';
-
+import {MdOutlineNotificationsNone, MdOutlineNotificationsOff} from 'react-icons/md'
 const Link = styled.a`
   display: flex;
   align-self: flex-start;
@@ -96,6 +96,14 @@ export const ReconnectButton = (props: ComponentProps<typeof Button>) => {
 
 export const SendHelloButton = (props: ComponentProps<typeof Button>) => {
   return <Button {...props}>Send message</Button>;
+};
+
+export const NotificationsButton = (props: ComponentProps<typeof Button>) => {
+  return <Button {...props} style={{marginRight:'10px', backgroundColor:`${props.enabled?'green':'red'}`, color:'white', border:'none'}}>{props.enabled?<MdOutlineNotificationsNone/>:<MdOutlineNotificationsOff/>}</Button>;
+};
+
+export const UrgencyButton = (props: ComponentProps<typeof Button>) => {
+  return (<Button {...props} style={props.enabled?{background:'green', color:'white',margin:'5px', borderColor:'green'}:{ margin:'5px'}} >{props.title}</Button>);
 };
 
 export const HeaderButtons = ({

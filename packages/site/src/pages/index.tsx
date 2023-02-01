@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { connectSnap, getSnap, shouldDisplayReconnectButton } from '../utils';
@@ -8,7 +8,10 @@ import {
   ReconnectButton,
   SendHelloButton,
   Card,
+  NotificationsButton,
+  UrgencyButton,
 } from '../components';
+import { CardUrgency } from '../components/CardUrgency';
 import { defaultSnapOrigin } from '../config';
 
 const Container = styled.div`
@@ -176,13 +179,25 @@ const Index = () => {
   //   console.log(result);
   // }
 
+  //Notifications
+  const [enableNotifications, setEnableNotifications] = useState(false);
+  const handleNotifications = () => {
+    setEnableNotifications(!enableNotifications);
+  }
+
+  //Urgency
+  const [urgencyValue, setUrgencyValue] = useState('0');
+  function handleUrgency(value: any) {
+    setUrgencyValue(value);
+    console.log("Urgency Value", value);
+  }
   return (
     <Container>
       <Heading>
         Welcome to <Span>template-snap</Span>
       </Heading>
       <Subtitle>
-        Get started by editing <code>src/index.ts</code>
+        {/* Get started by editing <code>src/index.ts</code> */}
       </Subtitle>
       <CardContainer>
         {state.error && (
@@ -252,7 +267,7 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
-        <Card
+        {/* <Card
           content={{
             title: 'Get Snap state',
             description:
@@ -263,6 +278,72 @@ const Index = () => {
                 disabled={!state.installedSnap}
               />
             ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        /> */}
+        {/* <Card
+          content={{
+            title: `${enableNotifications?'Notifications Enabled':'Notifications Disabled'}`,
+            description:
+              'Notifications will keep you updated about current gas prices.',
+            button: (
+              <  NotificationsButton
+                onClick={handleNotifications}
+                disabled={!state.installedSnap}
+                enabled={enableNotifications}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        /> */}
+        <CardUrgency
+          content={{
+            title: 'Urgency',
+            description:
+              'Describe the urgency of your transaction.',
+            button1: (
+              <  UrgencyButton
+                onClick={()=> handleUrgency('30')}
+                disabled={!state.installedSnap}
+                title="Less Urgent"
+                enabled = {urgencyValue==='30'?true: false}
+              />
+            ),
+            button2: (
+              <  UrgencyButton
+                onClick={()=> handleUrgency('60')}
+                disabled={!state.installedSnap}
+                title="Moderately Urgent"
+                enabled = {urgencyValue==='60'?true: false}
+              />
+            ),
+            button3: (
+              <  UrgencyButton
+                onClick={()=> handleUrgency('90')}
+                disabled={!state.installedSnap}
+                title="Very Urgent"
+                enabled = {urgencyValue==='90'?true: false}
+              />
+            ),
+            button4: (
+              <  UrgencyButton
+                onClick={()=> handleUrgency('100')}
+                disabled={!state.installedSnap}
+                title="Immediate Transaction"
+                enabled = {urgencyValue==='100'?true: false}
+              />
+            ),
+            urgencyValue: `${urgencyValue}`,
           }}
           disabled={!state.installedSnap}
           fullWidth={

@@ -28,7 +28,8 @@
   "dependencies": {
     "@metamask/abi-utils": "^1.1.1",
     "@metamask/snaps-types": "^0.28.0",
-    "@metamask/utils": "^3.4.1"
+    "@metamask/utils": "^3.4.1",
+    "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "@metamask/eslint-config": "^10.0.0",

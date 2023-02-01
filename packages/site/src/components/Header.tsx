@@ -1,8 +1,8 @@
-import { useContext } from 'react';
+import { useContext , useState} from 'react';
 import styled, { useTheme } from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { connectSnap, getThemePreference, getSnap } from '../utils';
-import { HeaderButtons } from './Buttons';
+import { HeaderButtons, NotificationsButton } from './Buttons';
 import { SnapLogo } from './SnapLogo';
 import { Toggle } from './Toggle';
 
@@ -59,6 +59,13 @@ export const Header = ({
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
   };
+  
+  //Notifications
+  const [enableNotifications, setEnableNotifications] = useState(false);
+  const handleNotifications = () => {
+    setEnableNotifications(!enableNotifications);
+    console.log("Notifications", !enableNotifications);
+  };
   return (
     <HeaderWrapper>
       <LogoWrapper>
@@ -66,12 +73,19 @@ export const Header = ({
         <Title>template-snap</Title>
       </LogoWrapper>
       <RightContainer>
+        < NotificationsButton
+          onClick={handleNotifications}
+          disabled={!state.installedSnap}
+          enabled={enableNotifications}
+          
+        />
         <Toggle
           onToggle={handleToggleClick}
           defaultChecked={getThemePreference()}
         />
         <HeaderButtons state={state} onConnectClick={handleConnectClick} />
       </RightContainer>
+
     </HeaderWrapper>
   );
 };
