@@ -168,6 +168,78 @@ const Index = () => {
   async function handleUrgency(value: any) {
     setUrgencyValue(value);
     console.log("Urgency Value", value);
+
+    if(value == 30){
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'set_urgency_35',
+            params:{
+              urgency: value
+            }
+          },
+        ],
+      });
+    }
+
+    if(value == 60){
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'set_urgency_60',
+            params:{
+              urgency: value
+            }
+          },
+        ],
+      });
+    }
+
+    if(value == 90){
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'set_urgency_90',
+            params:{
+              urgency: value
+            }
+          },
+        ],
+      });
+    }
+
+    if(value == 100){
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'set_urgency_100',
+            params:{
+              urgency: value
+            }
+          },
+        ],
+      });
+    }
+  }
+
+  async function callApi(){
+     await window.ethereum.request({
+       method: 'wallet_invokeSnap',
+       params: [
+         defaultSnapOrigin,
+         {
+           method: 'call_api',
+         },
+       ],
+     });
   }
 
   // Gas Price charts
