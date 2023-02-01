@@ -110,7 +110,7 @@ const Index = () => {
     try {
       await connectSnap();
       const installedSnap = await getSnap();
-
+      
       dispatch({
         type: MetamaskActions.SetInstalled,
         payload: installedSnap,
@@ -145,7 +145,6 @@ const Index = () => {
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
   };
-
   return (
     <Container>
       <Heading>
@@ -180,11 +179,11 @@ const Index = () => {
               button: (
                 <ConnectButton
                   onClick={handleConnectClick}
-                  disabled={!state.isFlask}
+                  disabled={!state.installedSnap}
                 />
               ),
             }}
-            disabled={!state.isFlask}
+            disabled={!state.installedSnap}
           />
         )}
         {shouldDisplayReconnectButton(state.installedSnap) && (
