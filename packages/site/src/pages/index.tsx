@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { connectSnap, getSnap, shouldDisplayReconnectButton } from '../utils';
@@ -9,10 +9,13 @@ import {
   SendHelloButton,
   Card,
   NotificationsButton,
+  ReloadButton,
   UrgencyButton,
 } from '../components';
 import { CardUrgency } from '../components/CardUrgency';
 import { defaultSnapOrigin } from '../config';
+import {CChart} from '@coreui/react-chartjs'
+import { ColorRing } from  'react-loader-spinner'
 
 const Container = styled.div`
   display: flex;
@@ -191,7 +194,57 @@ const Index = () => {
     setUrgencyValue(value);
     console.log("Urgency Value", value);
   }
+
+  // Gas Price charts
+  const network = 'eth'; // could be any supported network
+  const key = '178aef6373894679a5a9b66f44e0a4a9'; // fill your api key here
+  const [labels, setLabels] : any[] = useState([]);
+  const [datasets, setDatasets]: any[] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const months = {
+    '01': 'Jan',
+    '02': 'Feb',
+    '03': 'Mar',
+    '04': 'Apr',
+    '05': 'May',
+    '06': 'June',
+    '07': 'July',
+    '08': 'Aug',
+    '09': 'Sept',
+    '10': 'Oct',
+    '11': 'Nov',
+    '12': 'Dec',
+  }  
+  const fetchGasPrice = async () => {
+    setLoading(true);
+    const res = await fetch(`https://api.owlracle.info/v3/${network}/history?apikey=${ key }`);
+    const data = await res.json();
+    const x : any[] = [];
+    const y : any[] = [];
+
+    for (var i = data.length - 1; i >= 0; i--){
+      var date = data[i]['timestamp'].substr(0, 10).split('-');
+      console.log(date);
+      var dateStr = date[2] + ' ' + months[date[1]] + ' ' + date[0] + ' (' + data[i]['timestamp'].substr(11, 8)+')';
+      x.push(dateStr);
+      y.push(((data[i]['gasPrice']['low']+data[i]['gasPrice']['high'])/2));
+    }
+    setLabels(x);
+    setDatasets(y);
+    // console.log(data);
+    // console.log(x);
+    // console.log(y);
+    setLoading(false);
+
+  }
+  useEffect(() => {
+    fetchGasPrice();
+  }, [])
+  const handleReload = async() => {
+    fetchGasPrice();
+ }
   return (
+    <>
     <Container>
       <Heading>
         Welcome to <Span>template-snap</Span>
@@ -380,7 +433,40 @@ const Index = () => {
           </p>
         </Notice>
       </CardContainer>
-    </Container>
+      </Container>
+      <ReloadButton
+        onClick={handleReload}
+        style ={{margin:'auto'}}
+      />
+      {!loading?<CChart
+        type="line" 
+        data={{
+          labels: labels,
+          datasets: [
+            {
+              label: "Gas Price: ",
+              backgroundColor: "rgba(220, 220, 220, 0.2)",
+              borderColor: "rgba(220, 220, 220, 1)",
+              pointBackgroundColor: "rgba(220, 220, 220, 1)",
+              pointBorderColor: "#fff",
+              data: datasets
+            },
+          ],
+        }}
+      /> :
+        <div style={{margin:'auto'}}>
+      <ColorRing
+        visible={true}
+        height="50vh"
+        width="80"
+        ariaLabel="blocks-loading"
+        wrapperStyle={{}}
+        wrapperClass="blocks-wrapper"
+        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+      /></div>}
+
+
+    </>
   );
 };
 

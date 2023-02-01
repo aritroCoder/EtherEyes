@@ -106,6 +106,9 @@ export const UrgencyButton = (props: ComponentProps<typeof Button>) => {
   return (<Button {...props} style={props.enabled?{background:'green', color:'white',margin:'5px', borderColor:'green'}:{ margin:'5px'}} >{props.title}</Button>);
 };
 
+export const ReloadButton = (props: ComponentProps<typeof Button>) => {
+  return (<Button {...props} >Reload Graph</Button>);
+};
 export const HeaderButtons = ({
   state,
   onConnectClick,
