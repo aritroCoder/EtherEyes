@@ -156,32 +156,6 @@ const Index = () => {
     }
   };
 
-  const handleGetState = async () => {
-    const result = await window.ethereum.request({
-      method: 'wallet_invokeSnap',
-      params: [
-        defaultSnapOrigin,
-        {
-          method: 'get_state',
-        },
-      ],
-    });
-    console.log(result); 
-  };
-
-  // const handleCronJob = async()=>{
-  //   const result = await window.ethereum.request({
-  //     method: 'exampleMethodOne',
-  //     params: [
-  //       defaultSnapOrigin,
-  //       {
-  //         method: 'exampleMethodOne',
-  //       },
-  //     ],
-  //   });
-  //   console.log(result);
-  // }
-
   //Notifications
   const [enableNotifications, setEnableNotifications] = useState(false);
   const handleNotifications = () => {
@@ -190,7 +164,8 @@ const Index = () => {
 
   //Urgency
   const [urgencyValue, setUrgencyValue] = useState('0');
-  function handleUrgency(value: any) {
+
+  async function handleUrgency(value: any) {
     setUrgencyValue(value);
     console.log("Urgency Value", value);
   }
@@ -320,14 +295,13 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
-        {/* <Card
+        <Card
           content={{
-            title: 'Get Snap state',
-            description:
-              'Display the list of persistently stored states over snap',
+            title: 'Get current gas fees',
+            description: 'Display a notification with current gas fees',
             button: (
               <SendHelloButton
-                onClick={handleGetState}
+                onClick={callApi}
                 disabled={!state.installedSnap}
               />
             ),
@@ -338,62 +312,41 @@ const Index = () => {
             Boolean(state.installedSnap) &&
             !shouldDisplayReconnectButton(state.installedSnap)
           }
-        /> */}
-        {/* <Card
-          content={{
-            title: `${enableNotifications?'Notifications Enabled':'Notifications Disabled'}`,
-            description:
-              'Notifications will keep you updated about current gas prices.',
-            button: (
-              <  NotificationsButton
-                onClick={handleNotifications}
-                disabled={!state.installedSnap}
-                enabled={enableNotifications}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            state.isFlask &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        /> */}
+        />
         <CardUrgency
           content={{
             title: 'Urgency',
-            description:
-              'Describe the urgency of your transaction.',
+            description: 'Describe the urgency of your transaction.',
             button1: (
-              <  UrgencyButton
-                onClick={()=> handleUrgency('30')}
+              <UrgencyButton
+                onClick={() => handleUrgency('30')}
                 disabled={!state.installedSnap}
                 title="Less Urgent"
-                enabled = {urgencyValue==='30'?true: false}
+                enabled={urgencyValue === '30' ? true : false}
               />
             ),
             button2: (
-              <  UrgencyButton
-                onClick={()=> handleUrgency('60')}
+              <UrgencyButton
+                onClick={() => handleUrgency('60')}
                 disabled={!state.installedSnap}
                 title="Moderately Urgent"
-                enabled = {urgencyValue==='60'?true: false}
+                enabled={urgencyValue === '60' ? true : false}
               />
             ),
             button3: (
-              <  UrgencyButton
-                onClick={()=> handleUrgency('90')}
+              <UrgencyButton
+                onClick={() => handleUrgency('90')}
                 disabled={!state.installedSnap}
                 title="Very Urgent"
-                enabled = {urgencyValue==='90'?true: false}
+                enabled={urgencyValue === '90' ? true : false}
               />
             ),
             button4: (
-              <  UrgencyButton
-                onClick={()=> handleUrgency('100')}
+              <UrgencyButton
+                onClick={() => handleUrgency('100')}
                 disabled={!state.installedSnap}
                 title="Immediate Transaction"
-                enabled = {urgencyValue==='100'?true: false}
+                enabled={urgencyValue === '100' ? true : false}
               />
             ),
             urgencyValue: `${urgencyValue}`,
