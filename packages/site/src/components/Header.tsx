@@ -1,10 +1,11 @@
-import { useContext , useState} from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { connectSnap, getThemePreference, getSnap } from '../utils';
 import { HeaderButtons, NotificationsButton } from './Buttons';
 import { SnapLogo } from './SnapLogo';
 import { Toggle } from './Toggle';
+import { defaultSnapOrigin } from '../config';
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -59,12 +60,52 @@ export const Header = ({
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
   };
-  
+
   //Notifications
   const [enableNotifications, setEnableNotifications] = useState(false);
-  const handleNotifications = () => {
+
+  useEffect(()=>{
+    if(state.installedSnap){
+      (async () => {
+        const notif = await window.ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [
+            defaultSnapOrigin,
+            {
+              method: 'notif_toggle_false',
+            },
+          ],
+        });
+        setEnableNotifications(false);
+      })();
+    }
+  }, [])
+
+  const handleNotifications = async () => {
+    console.log('Notifications', !enableNotifications);
+
+    if (!enableNotifications) {
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'notif_toggle_true',
+          },
+        ],
+      });
+    } else {
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'notif_toggle_false',
+          },
+        ],
+      });
+    }
     setEnableNotifications(!enableNotifications);
-    console.log("Notifications", !enableNotifications);
   };
   return (
     <HeaderWrapper>
@@ -73,11 +114,10 @@ export const Header = ({
         <Title>template-snap</Title>
       </LogoWrapper>
       <RightContainer>
-        < NotificationsButton
+        <NotificationsButton
           onClick={handleNotifications}
           disabled={!state.installedSnap}
           enabled={enableNotifications}
-          
         />
         <Toggle
           onToggle={handleToggleClick}
@@ -85,7 +125,6 @@ export const Header = ({
         />
         <HeaderButtons state={state} onConnectClick={handleConnectClick} />
       </RightContainer>
-
     </HeaderWrapper>
   );
 };

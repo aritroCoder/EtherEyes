@@ -1,5 +1,36 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import requests
+import numpy as np
+from statsforecast.models import AutoARIMA
+
+
+def get_timeseries():
+    key = '57418dae76c24975b8c8c60e23bb6370'
+
+    history_data = requests.get('https://api.owlracle.info/v3/eth/history?apikey={}&candles=100&txfee=true'.format(key))
+    history_data = history_data.json()
+
+    low = []
+
+    for obj in history_data:
+        low.append(obj['gasPrice']['low'])
+
+    low.reverse()
+
+    return np.array(low)
+
+def get_prediction():
+    values = get_timeseries()
+    model = AutoARIMA()
+    predictions = model.forecast(values,2)
+    
+    prediction_json = {'low_30_minutes': predictions['mean'][0], 'low_60_minutes':predictions['mean'][1]}
+    
+    return prediction_json
+
+
+
 app = FastAPI()
 
 origins = [
@@ -16,7 +47,6 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {
-      "expected_cost": 10,
-      "suggested_wait": "30 mins",
-    }
+    pred = get_prediction()
+
+    return pred
