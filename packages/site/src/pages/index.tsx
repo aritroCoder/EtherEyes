@@ -160,9 +160,21 @@ const Index = () => {
         },
       ],
     });
-
     console.log(result); 
   };
+
+  // const handleCronJob = async()=>{
+  //   const result = await window.ethereum.request({
+  //     method: 'exampleMethodOne',
+  //     params: [
+  //       defaultSnapOrigin,
+  //       {
+  //         method: 'exampleMethodOne',
+  //       },
+  //     ],
+  //   });
+  //   console.log(result);
+  // }
 
   return (
     <Container>
@@ -259,6 +271,25 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
+        {/* <Card
+          content={{
+            title: 'Start cron job',
+            description:
+              'Start a cron job',
+            button: (
+              <SendHelloButton
+                onClick={handleCronJob}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        /> */}
         <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}

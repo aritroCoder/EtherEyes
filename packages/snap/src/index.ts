@@ -2,6 +2,7 @@ import {
   OnTransactionHandler,
   OnRpcRequestHandler,
 } from '@metamask/snap-types';
+import { OnCronjobHandler } from '@metamask/snaps-types';
 import { hasProperty, isObject, Json } from '@metamask/utils';
 
 // The API endpoint.
@@ -37,6 +38,34 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     default: {
       throw new Error('Method not found.');
     }
+  }
+};
+
+export const onCronjob: OnCronjobHandler = async ({ request }) => {
+  switch (request.method) {
+    case 'exampleMethodOne': {
+      const currentData = await fetch(CURRENT_DATA_ENDPOINT, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const current = await currentData.json();
+      console.log(current);
+
+      return wallet.request({
+        method: 'snap_notify',
+        params: [
+          {
+            type: 'native',
+            message: `Current gas fee is: ${current.speeds[0].baseFee} Gwei`,
+          },
+        ],
+      });
+    }
+
+    default:
+      throw new Error('Method not found.');
   }
 };
 
