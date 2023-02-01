@@ -7,7 +7,7 @@
     "url": "https://github.com/aritroCoder/transaction-insights.git"
   },
   "source": {
-    "shasum": "9doDL634UbG1Dp/AFaJxFN1GWiyxRoTMwVUdwNTQLKI=",
+    "shasum": "e+xWmq6UnA+aYhfnX5oHktnaXC7/dCgqGi6QKoR0FGQ=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -19,7 +19,26 @@
   },
   "initialPermissions": {
     "endowment:transaction-insight": {},
-    "endowment:network-access": {}
+    "endowment:network-access": {},
+    "snap_manageState": {},
+    "snap_notify": {},
+    "endowment:cronjob": {
+      "jobs": [
+        {
+          "expression": {
+            "minute": "*",
+            "hour": "*",
+            "dayOfMonth": "*",
+            "month": "*",
+            "dayOfWeek": "*"
+          },
+          "request": {
+            "method": "exampleMethodOne",
+            "params": {}
+          }
+        }
+      ]
+    }
   },
   "manifestVersion": "0.1"
 }

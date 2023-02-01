@@ -86,5 +86,5 @@ The project follows the same release process as the other libraries in the MetaM
 
 ```bash
 pip install "fastapi[all]"
-uvicorn fastserver:app --reload
+uvicorn fastserver:app --reload --port 5000
 ```
