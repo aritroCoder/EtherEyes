@@ -271,7 +271,7 @@ const Index = () => {
 
     for (var i = data.length - 1; i >= 0; i--){
       var date = data[i]['timestamp'].substr(0, 10).split('-');
-      console.log(date);
+      // console.log(date);
       var dateStr = date[2] + ' ' + months[date[1]] + ' ' + date[0] + ' (' + data[i]['timestamp'].substr(11, 8)+')';
       x.push(dateStr);
       y.push(((data[i]['gasPrice']['low']+data[i]['gasPrice']['high'])/2));

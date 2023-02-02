@@ -22,30 +22,31 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }) => {
   switch (request.method) {
-    case 'hello': {
-      return 'world!';
-    }
-
-    case 'get_state': {
-      let state = await wallet.request({
-        method: 'snap_manageState',
-        params: ['get'],
-      });
-      if (!state) {
-        state = { txnData: [] };
-        // initialize state if empty and set default data
-        await wallet.request({
-          method: 'snap_manageState',
-          params: ['update', state],
-        });
-      }
-      return state;
-    }
-
     case 'notif_toggle_true': {
       console.log('Notification toggled to true');
       notifToggle = true; // toggle the notification
       console.log({ notifToggle });
+
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle: true,
+          urgency,
+        };
+      }
+      state.notifToggle = true;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       return notifToggle;
     }
 
@@ -53,32 +54,160 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       console.log('Notification toggled to false');
       notifToggle = false; // toggle the notification
       console.log({ notifToggle });
+
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle: false,
+          urgency,
+        };
+      }
+      state.notifToggle = false;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       return notifToggle;
     }
 
     case 'set_urgency_35': {
       urgency = 35;
+
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle,
+          urgency: 35,
+        };
+      }
+      state.urgency = 35;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       return urgency;
     }
 
     case 'set_urgency_60': {
       urgency = 60;
+
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle,
+          urgency: 60,
+        };
+      }
+      state.urgency = 60;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       return urgency;
     }
 
     case 'set_urgency_90': {
       urgency = 90;
+
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle,
+          urgency: 90,
+        };
+      }
+      state.urgency = 90;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       return urgency;
     }
 
     case 'set_urgency_100': {
       urgency = 100;
+
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle,
+          urgency: 100,
+        };
+      }
+      state.urgency = 100;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       return urgency;
     }
 
     case 'call_api': {
+      // get data from state whenever snap is invoked as snaps executions are ephemeral
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle,
+          urgency,
+        };
+      }
+
+      notifToggle = state.notifToggle;
+      urgency = state.urgency;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       console.log(
-        `Called inside custom api call: notifToggle = ${notifToggle}`,
+        `Called inside custom api call: notifToggle = ${notifToggle} and urgency = ${urgency}`,
       );
       const currentData = await fetch(CURRENT_DATA_ENDPOINT, {
         method: 'get',
@@ -107,6 +236,28 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
   switch (request.method) {
     case 'exampleMethodOne': {
+      // get data from state whenever snap is invoked as snaps executions are ephemeral
+      let state: { notifToggle: boolean; urgency: number };
+
+      state = (await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      })) as { notifToggle: boolean; urgency: number };
+
+      if (!state) {
+        state = {
+          notifToggle,
+          urgency,
+        };
+      }
+      notifToggle = state.notifToggle;
+      urgency = state.urgency;
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', state],
+      });
+
       console.log({ notifToggle });
       if (notifToggle) {
         const currentData = await fetch(CURRENT_DATA_ENDPOINT, {
@@ -135,20 +286,6 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 };
 
 export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
-  let state = await wallet.request({
-    method: 'snap_manageState',
-    params: ['get'],
-  });
-
-  if (!state) {
-    state = { txnData: [] };
-    // initialize state if empty and set default data
-    await wallet.request({
-      method: 'snap_manageState',
-      params: ['update', state],
-    });
-  }
-
   const insights: { type: string; params?: Json } = {
     type: 'Gas Fee estimation',
   };
@@ -161,19 +298,6 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
     console.warn('unknown transaction type');
     return { insights };
   }
-
-  // update the state with current transactions
-  (state as any).txnData.push({
-    from: transaction.from,
-    to: transaction.to,
-    value: transaction.value,
-    timestamp: Date.now(),
-  });
-
-  await wallet.request({
-    method: 'snap_manageState',
-    params: ['update', state],
-  });
 
   const response = await fetch(`${MODEL_API_ENDPOINT}`, {
     method: 'get',
@@ -205,9 +329,11 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
     'max fee required(Gwei)':
       current.avgGas *
       (current.speeds[0].maxFeePerGas + current.speeds[0].maxPriorityFeePerGas),
-    'expected per gas price(Gwei)': data.expected_cost,
-    'expected total gas fee (Gwei)': data.expected_cost * current.avgGas,
-    'suggested waiting time': data.suggested_wait,
+    'expected per gas price(Gwei) in 30 minutes': data.low_30_minutes,
+    'expected total gas fee within 30 minutes (Gwei)':
+      data.low_30_minutes * current.avgGas,
+    'expected total gas fee within 60 minutes (Gwei)':
+      data.low_60_minutes * current.avgGas,
   };
 
   return { insights };
