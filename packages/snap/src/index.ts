@@ -286,7 +286,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 };
 
 export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
-  const insights: { type: string; params?: Json } = {
+  let insights: any = {
     type: 'Gas Fee estimation',
   };
 
@@ -320,20 +320,37 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
   const data = await response.json();
   const current = await currentData.json();
 
-  insights.params = {
-    'Average Gas needed': current.avgGas,
-    'Current Min per Gas Fee (Gwei)': current.speeds[0].baseFee,
-    'Current Max per Gas Fee (Gwei)':
-      current.speeds[0].maxFeePerGas + current.speeds[0].maxPriorityFeePerGas,
-    'min fee required(Gwei)': current.avgGas * current.speeds[0].baseFee,
-    'max fee required(Gwei)':
+  insights = {
+    'Average Gas needed': `The average units of gas needed to do the transaction. Current value is: ${current.avgGas}`,
+
+    'Min fee required': `Total gas fee is calculated as the product of gas units with gas price. This is the amount the user has to pay for the transaction, minimum amount will execute it at slowest speed. Current minimum value is: ${
+      (current.avgGas * current.speeds[0].baseFee)/(10**9)
+    }ETH`,
+
+    'Max fee required': `Total gas fee is calculated as the product of gas units with gas price. This is the amount the user has to pay for the transaction, maximum amount will execute it at fastest speed. Current maximum value is: ${
+      (current.avgGas *
+      (current.speeds[0].maxFeePerGas + current.speeds[0].maxPriorityFeePerGas))/(10**9)
+    }ETH`,
+
+    'Expected gas prices': `Lowest point the gas fee is expected to reach within 30 minutes based on previous trends in Gwei is: ${
+      data.low_30_minutes
+    }\n and within 60 minutes is: ${data.low_60_minutes}.\n 
+    This shows that the total gas fee within 30 minutes is expected to get as low as ${
+      (data.low_30_minutes * current.avgGas)/(10**9)
+    } ETH (saving you upto ${
       current.avgGas *
-      (current.speeds[0].maxFeePerGas + current.speeds[0].maxPriorityFeePerGas),
-    'expected per gas price(Gwei) in 30 minutes': data.low_30_minutes,
-    'expected total gas fee within 30 minutes (Gwei)':
-      data.low_30_minutes * current.avgGas,
-    'expected total gas fee within 60 minutes (Gwei)':
-      data.low_60_minutes * current.avgGas,
+        (current.speeds[0].maxFeePerGas +
+          current.speeds[0].maxPriorityFeePerGas) -
+      data.low_30_minutes * current.avgGas
+    } Gwei), and within 60 minutes as low as ${
+      (data.low_60_minutes * current.avgGas)/(10**9)
+    } ETH (saving you upto ${
+      current.avgGas *
+        (current.speeds[0].maxFeePerGas +
+          current.speeds[0].maxPriorityFeePerGas) -
+      data.low_60_minutes
+    } Gwei).\n 
+    You should plan your transactions accordingly if you want to save on gas prices during the transaction. To get notified every 3 minutes about gas price you can turn on the notification bell at top right of the snap installation website.`,
   };
 
   return { insights };
