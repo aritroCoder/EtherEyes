@@ -16,6 +16,7 @@ import { CardUrgency } from '../components/CardUrgency';
 import { defaultSnapOrigin } from '../config';
 import {CChart} from '@coreui/react-chartjs'
 import { ColorRing } from  'react-loader-spinner'
+import data from '../../../../config.json';
 
 const Container = styled.div`
   display: flex;
@@ -231,20 +232,25 @@ const Index = () => {
   }
 
   async function callApi(){
-     await window.ethereum.request({
-       method: 'wallet_invokeSnap',
-       params: [
-         defaultSnapOrigin,
-         {
-           method: 'call_api',
-         },
-       ],
-     });
+    try {
+      await window.ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          defaultSnapOrigin,
+          {
+            method: 'call_api',
+          },
+        ],
+      });
+    } catch (e) {
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+     
   }
 
   // Gas Price charts
   const network = 'eth'; // could be any supported network
-  const key = '178aef6373894679a5a9b66f44e0a4a9'; // fill your api key here
+  const key = data.key; // fill your api key here
   const [labels, setLabels] : any[] = useState([]);
   const [datasets, setDatasets]: any[] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -294,7 +300,7 @@ const Index = () => {
     <>
     <Container>
       <Heading>
-        Welcome to <Span>template-snap</Span>
+        Welcome to <Span>EtherEyes</Span>
       </Heading>
       <Subtitle>
         {/* Get started by editing <code>src/index.ts</code> */}
@@ -332,7 +338,7 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )}
-        {shouldDisplayReconnectButton(state.installedSnap) && (
+        {/* {shouldDisplayReconnectButton(state.installedSnap) && (
           <Card
             content={{
               title: 'Reconnect',
@@ -347,7 +353,7 @@ const Index = () => {
             }}
             disabled={!state.installedSnap}
           />
-        )}
+        )} */}
         <Card
           content={{
             title: 'Send Transaction',
@@ -449,14 +455,6 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         /> */}
-        <Notice>
-          <p>
-            Please note that the <b>snap.manifest.json</b> and{' '}
-            <b>package.json</b> must be located in the server root directory and
-            the bundle must be hosted at the location specified by the location
-            field.
-          </p>
-        </Notice>
       </CardContainer>
       </Container>
       <ReloadButton

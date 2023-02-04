@@ -1,13 +1,13 @@
 {
   "version": "0.2.0",
   "description": "An gas fee estimation Snap written in TypeScript.",
-  "proposedName": "MetaMask Gas Fee predictor",
+  "proposedName": "EtherEyes",
   "repository": {
     "type": "git",
     "url": "https://github.com/aritroCoder/transaction-insights.git"
   },
   "source": {
-    "shasum": "o2gqYuPT9oLbD72I24d6pzUKe/ACGfEkwBynXdI0q+U=",
+    "shasum": "h3h+8FHj8JNdR6z5tLOr/BVBp6ZM0XV8Bqt7CJuFGWU=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

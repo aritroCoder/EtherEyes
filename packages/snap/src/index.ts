@@ -4,14 +4,14 @@ import {
 } from '@metamask/snap-types';
 import { OnCronjobHandler } from '@metamask/snaps-types';
 import { hasProperty, isObject } from '@metamask/utils';
+import jsonData from '../../../config.json';
 
 // Transaction Urgency
 let urgency = 60;
 
 // The API endpoint.
-const API_KEY = '57418dae76c24975b8c8c60e23bb6370';
 const MODEL_API_ENDPOINT = 'http://127.0.0.1:5000/';
-const CURRENT_DATA_ENDPOINT = `https://api.owlracle.info/v3/eth/gas?accept=${urgency}&apikey=${API_KEY}`;
+const CURRENT_DATA_ENDPOINT = `https://api.owlracle.info/v3/eth/gas?accept=${urgency}&apikey=${jsonData.key}`;
 
 // cronjob notification enabler
 let notifToggle = false;
@@ -334,10 +334,8 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
       10 ** 9
     }ETH`,
 
-    'Expected gas prices': `Lowest point the gas fee is expected to reach within 30 minutes based on previous trends in Gwei is: ${
-      data.low_30_minutes
-    }\n and within 60 minutes is: ${data.low_60_minutes}.\n 
-    This shows that the total gas fee within 30 minutes is expected to get as low as ${
+    'Expected gas prices': `
+    The total gas fee within 30 minutes is expected to get as low as ${
       (data.low_30_minutes * current.avgGas) / 10 ** 9
     } ETH (saving you upto ${
       current.avgGas *

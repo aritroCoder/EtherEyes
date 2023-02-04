@@ -3,10 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 import requests
 import numpy as np
 from statsforecast.models import AutoARIMA
-
+import json
 
 def get_timeseries():
-    key = '57418dae76c24975b8c8c60e23bb6370'
+    with open('persons.json') as f:
+        data = json.load(f)
+   
+    key = data.key
 
     history_data = requests.get('https://api.owlracle.info/v3/eth/history?apikey={}&candles=100&txfee=true'.format(key))
     history_data = history_data.json()

@@ -1,4 +1,4 @@
-# TBD
+# EtherEyes
 
 This snap will enable the metamask users to forecast the gas prices and plan their transactions beforehand.
 
@@ -60,11 +60,21 @@ pip install statsforecast
 pip install requests
 ```
 
-#### Setting up servers
+Setting up servers
 
 ```bash
 cd ~/Desktop
-git clone git@github.com:aritroCoder/transaction-insights.git
+git clone https://github.com/aritroCoder/transaction-insights.git
+```
+
+#### Setting up config
+
+Create a file named `config.json` in `transaction-insights/` directory, and write in the file (Create an API key from https://owlracle.info/eth and paste it in place of your_key)
+
+```json
+{
+  "key": "your_key"
+}
 ```
 
 Starting the python server
@@ -91,5 +101,4 @@ Done both the servers are running now..
 - Python server is at http://127.0.0.1:5000/
 
 ## Authors
-
-- INST_ID = 23
+This project is built for inter IIT Tech meet 11 by the team of Institute ID: 23
