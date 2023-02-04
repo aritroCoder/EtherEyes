@@ -69,7 +69,7 @@ git clone https://github.com/aritroCoder/transaction-insights.git
 
 #### Setting up config
 
-Create a file named `config.json` in `transaction-insights/` directory, and write in the file (Create an API key from https://owlracle.info/eth and paste it in place of your_key)
+Create a file named `config.json` in `transaction-insights/` directory, and write in the file (Create an API key from https://owlracle.info/eth and paste it in place of `your_key`)
 
 ```json
 {
