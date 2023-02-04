@@ -76,6 +76,7 @@ Create a file named `config.json` in `transaction-insights/` directory, and writ
   "key": "your_key"
 }
 ```
+Then copy this file to `transaction-insights/packages/snap/` and `transaction-insights/packages/site` directories
 
 Starting the python server
 
