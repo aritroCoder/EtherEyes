@@ -113,7 +113,6 @@ This project is built for inter IIT Tech meet 11 by the team of Institute ID: 23
 
 ## References
 
-
 <a id ="1">[1]</a>
 A hybrid SARIMA and support vector machines in forecasting the production values of the machinery industry in Taiwan. Expert Systems with Applications, 32(1), 254-264. https://doi.org/10.1016/j.eswa.2005.11.027
 
