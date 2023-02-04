@@ -6,10 +6,11 @@ from statsforecast.models import AutoARIMA
 import json
 
 def get_timeseries():
-    with open('persons.json') as f:
+    with open('config.json') as f:
         data = json.load(f)
+        print(data)
    
-    key = data.key
+    key = data['key']
 
     history_data = requests.get('https://api.owlracle.info/v3/eth/history?apikey={}&candles=100&txfee=true'.format(key))
     history_data = history_data.json()

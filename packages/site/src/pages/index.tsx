@@ -16,7 +16,7 @@ import { CardUrgency } from '../components/CardUrgency';
 import { defaultSnapOrigin } from '../config';
 import {CChart} from '@coreui/react-chartjs'
 import { ColorRing } from  'react-loader-spinner'
-import data from '../../../../config.json';
+import data from '../../config.json';
 
 const Container = styled.div`
   display: flex;
