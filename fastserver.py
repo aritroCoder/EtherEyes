@@ -6,7 +6,7 @@ from statsforecast.models import AutoARIMA
 import json
 
 def get_timeseries():
-    with open('config.json') as f:
+    with open('key.json') as f:
         data = json.load(f)
         print(data)
    

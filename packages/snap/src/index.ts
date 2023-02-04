@@ -4,7 +4,7 @@ import {
 } from '@metamask/snap-types';
 import { OnCronjobHandler } from '@metamask/snaps-types';
 import { hasProperty, isObject } from '@metamask/utils';
-import jsonData from '../config.json';
+import jsonData from '../key.json';
 
 // Transaction Urgency
 let urgency = 60;

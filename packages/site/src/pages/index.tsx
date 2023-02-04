@@ -16,7 +16,9 @@ import { CardUrgency } from '../components/CardUrgency';
 import { defaultSnapOrigin } from '../config';
 import {CChart} from '@coreui/react-chartjs'
 import { ColorRing } from  'react-loader-spinner'
-import data from '../../config.json';
+import jsonData from '../key.json';
+
+const key = jsonData.key;
 
 const Container = styled.div`
   display: flex;
@@ -250,7 +252,6 @@ const Index = () => {
 
   // Gas Price charts
   const network = 'eth'; // could be any supported network
-  const key = data.key; // fill your api key here
   const [labels, setLabels] : any[] = useState([]);
   const [datasets, setDatasets]: any[] = useState([]);
   const [loading, setLoading] = useState(false);
