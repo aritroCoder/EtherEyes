@@ -3,7 +3,7 @@ import {
   OnRpcRequestHandler,
 } from '@metamask/snap-types';
 import { OnCronjobHandler } from '@metamask/snaps-types';
-import { hasProperty, isObject, Json } from '@metamask/utils';
+import { hasProperty, isObject } from '@metamask/utils';
 
 // Transaction Urgency
 let urgency = 60;
@@ -324,26 +324,28 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
     'Average Gas needed': `The average units of gas needed to do the transaction. Current value is: ${current.avgGas}`,
 
     'Min fee required': `Total gas fee is calculated as the product of gas units with gas price. This is the amount the user has to pay for the transaction, minimum amount will execute it at slowest speed. Current minimum value is: ${
-      (current.avgGas * current.speeds[0].baseFee)/(10**9)
+      (current.avgGas * current.speeds[0].baseFee) / 10 ** 9
     }ETH`,
 
     'Max fee required': `Total gas fee is calculated as the product of gas units with gas price. This is the amount the user has to pay for the transaction, maximum amount will execute it at fastest speed. Current maximum value is: ${
       (current.avgGas *
-      (current.speeds[0].maxFeePerGas + current.speeds[0].maxPriorityFeePerGas))/(10**9)
+        (current.speeds[0].maxFeePerGas +
+          current.speeds[0].maxPriorityFeePerGas)) /
+      10 ** 9
     }ETH`,
 
     'Expected gas prices': `Lowest point the gas fee is expected to reach within 30 minutes based on previous trends in Gwei is: ${
       data.low_30_minutes
     }\n and within 60 minutes is: ${data.low_60_minutes}.\n 
     This shows that the total gas fee within 30 minutes is expected to get as low as ${
-      (data.low_30_minutes * current.avgGas)/(10**9)
+      (data.low_30_minutes * current.avgGas) / 10 ** 9
     } ETH (saving you upto ${
       current.avgGas *
         (current.speeds[0].maxFeePerGas +
           current.speeds[0].maxPriorityFeePerGas) -
       data.low_30_minutes * current.avgGas
     } Gwei), and within 60 minutes as low as ${
-      (data.low_60_minutes * current.avgGas)/(10**9)
+      (data.low_60_minutes * current.avgGas) / 10 ** 9
     } ETH (saving you upto ${
       current.avgGas *
         (current.speeds[0].maxFeePerGas +
