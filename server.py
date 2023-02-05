@@ -5,14 +5,17 @@ import numpy as np
 from statsforecast.models import AutoARIMA
 import json
 
+
 def get_timeseries():
     with open('key.json') as f:
         data = json.load(f)
         print(data)
-   
+
     key = data['key']
 
-    history_data = requests.get('https://api.owlracle.info/v3/eth/history?apikey={}&candles=100&txfee=true'.format(key))
+    history_data = requests.get(
+        'https://api.owlracle.info/v3/eth/history?apikey={}&candles=100&txfee=true'
+        .format(key))
     history_data = history_data.json()
 
     low = []
@@ -24,15 +27,18 @@ def get_timeseries():
 
     return np.array(low)
 
+
 def get_prediction():
     values = get_timeseries()
     model = AutoARIMA()
-    predictions = model.forecast(values,2)
-    
-    prediction_json = {'low_30_minutes': predictions['mean'][0], 'low_60_minutes':predictions['mean'][1]}
-    
-    return prediction_json
+    predictions = model.forecast(values, 2)
+    print("Pred: ", predictions)
+    prediction_json = {
+        'low_30_minutes': predictions['mean'][0],
+        'low_60_minutes': predictions['mean'][1]
+    }
 
+    return prediction_json
 
 
 app = FastAPI()
@@ -48,6 +54,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/")
 async def root():
