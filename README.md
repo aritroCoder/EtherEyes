@@ -17,6 +17,7 @@ For investors and traders, being able to predict gas prices can provide a deeper
 ## Features
 
 - Notification about current gas prices
+- Suggests user to buy when lowest gas price reached
 - Dark theme available
 - Notification toggle
 - Graphical data representaion of gas prices
