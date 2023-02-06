@@ -6,7 +6,7 @@ import { HeaderButtons, NotificationsButton } from './Buttons';
 import { SnapLogo } from './SnapLogo';
 import { Toggle } from './Toggle';
 import { defaultSnapOrigin } from '../config';
-
+import Ethereyes from '../images/ethereyes.png'
 const HeaderWrapper = styled.header`
   display: flex;
   flex-direction: row;
@@ -107,10 +107,14 @@ export const Header = ({
     }
     setEnableNotifications(!enableNotifications);
   };
+  // const Ethereyes = require('../images/ethereyes.svg');
+  // console.log(Ethereyes);
   return (
     <HeaderWrapper>
+        {/* <img src={Ethereyes} alt="" srcSet="Logo" style={{width:'100px', height:'100px'}}/> */}
       <LogoWrapper>
-        <SnapLogo color={theme.colors.icon.default} size={36} />
+      <img src={Ethereyes} alt='' style={{width:'50px', height:'auto'}}/>
+        {/* <SnapLogo color={theme.colors.icon.default} size={36} /> */}
         <Title>EtherEyes</Title>
       </LogoWrapper>
       <RightContainer>

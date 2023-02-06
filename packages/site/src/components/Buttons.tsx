@@ -107,7 +107,7 @@ export const UrgencyButton = (props: ComponentProps<typeof Button>) => {
 };
 
 export const ReloadButton = (props: ComponentProps<typeof Button>) => {
-  return (<Button {...props} >Reload Graph</Button>);
+  return (<div style={{width:'100%', display:'flex', justifyContent:'center'}}><Button {...props} style={{width:'fit-content'}}>Reload Graph</Button></div>);
 };
 export const HeaderButtons = ({
   state,
