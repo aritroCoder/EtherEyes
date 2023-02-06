@@ -14,8 +14,8 @@ import {
 } from '../components';
 import { CardUrgency } from '../components/CardUrgency';
 import { defaultSnapOrigin } from '../config';
-import {CChart} from '@coreui/react-chartjs'
-import { ColorRing } from  'react-loader-spinner'
+import { CChart } from '@coreui/react-chartjs';
+import { ColorRing } from 'react-loader-spinner';
 import jsonData from '../key.json';
 
 const key = jsonData.key;
@@ -120,7 +120,7 @@ const Index = () => {
     try {
       await connectSnap();
       const installedSnap = await getSnap();
-      
+
       dispatch({
         type: MetamaskActions.SetInstalled,
         payload: installedSnap,
@@ -163,77 +163,77 @@ const Index = () => {
   const [enableNotifications, setEnableNotifications] = useState(false);
   const handleNotifications = () => {
     setEnableNotifications(!enableNotifications);
-  }
+  };
 
   //Urgency
   const [urgencyValue, setUrgencyValue] = useState('0');
 
   async function handleUrgency(value: any) {
     setUrgencyValue(value);
-    console.log("Urgency Value", value);
+    console.log('Urgency Value', value);
 
-    if(value == 30){
+    if (value == 30) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
         params: [
           defaultSnapOrigin,
           {
             method: 'set_urgency_35',
-            params:{
-              urgency: value
-            }
+            params: {
+              urgency: value,
+            },
           },
         ],
       });
     }
 
-    if(value == 60){
+    if (value == 60) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
         params: [
           defaultSnapOrigin,
           {
             method: 'set_urgency_60',
-            params:{
-              urgency: value
-            }
+            params: {
+              urgency: value,
+            },
           },
         ],
       });
     }
 
-    if(value == 90){
+    if (value == 90) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
         params: [
           defaultSnapOrigin,
           {
             method: 'set_urgency_90',
-            params:{
-              urgency: value
-            }
+            params: {
+              urgency: value,
+            },
           },
         ],
       });
     }
 
-    if(value == 100){
+    if (value == 100) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
         params: [
           defaultSnapOrigin,
           {
             method: 'set_urgency_100',
-            params:{
-              urgency: value
-            }
+            params: {
+              urgency: value,
+            },
           },
         ],
       });
     }
   }
 
-  async function callApi(){
+  async function callApi() {
     try {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
@@ -247,12 +247,11 @@ const Index = () => {
     } catch (e) {
       dispatch({ type: MetamaskActions.SetError, payload: e });
     }
-     
   }
 
   // Gas Price charts
   const network = 'eth'; // could be any supported network
-  const [labels, setLabels] : any[] = useState([]);
+  const [labels, setLabels]: any[] = useState([]);
   const [datasets, setDatasets]: any[] = useState([]);
   const [loading, setLoading] = useState(false);
   const months = {
@@ -268,20 +267,30 @@ const Index = () => {
     '10': 'Oct',
     '11': 'Nov',
     '12': 'Dec',
-  }  
+  };
   const fetchGasPrice = async () => {
     setLoading(true);
-    const res = await fetch(`https://api.owlracle.info/v3/${network}/history?apikey=${ key }`);
+    const res = await fetch(
+      `https://api.owlracle.info/v3/${network}/history?apikey=${key}`,
+    );
     const data = await res.json();
-    const x : any[] = [];
-    const y : any[] = [];
+    const x: any[] = [];
+    const y: any[] = [];
 
-    for (var i = data.length - 1; i >= 0; i--){
+    for (var i = data.length - 1; i >= 0; i--) {
       var date = data[i]['timestamp'].substr(0, 10).split('-');
       // console.log(date);
-      var dateStr = date[2] + ' ' + months[date[1]] + ' ' + date[0] + ' (' + data[i]['timestamp'].substr(11, 8)+')';
+      var dateStr =
+        date[2] +
+        ' ' +
+        months[date[1]] +
+        ' ' +
+        date[0] +
+        ' (' +
+        data[i]['timestamp'].substr(11, 8) +
+        ')';
       x.push(dateStr);
-      y.push(((data[i]['gasPrice']['low']+data[i]['gasPrice']['high'])/2));
+      y.push((data[i]['gasPrice']['low'] + data[i]['gasPrice']['high']) / 2);
     }
     setLabels(x);
     setDatasets(y);
@@ -289,57 +298,56 @@ const Index = () => {
     // console.log(x);
     // console.log(y);
     setLoading(false);
-
-  }
+  };
   useEffect(() => {
     fetchGasPrice();
-  }, [])
-  const handleReload = async() => {
+  }, []);
+  const handleReload = async () => {
     fetchGasPrice();
- }
+  };
   return (
     <>
-    <Container>
-      <Heading>
-        Welcome to <Span>EtherEyes</Span>
-      </Heading>
-      <Subtitle>
-        {/* Get started by editing <code>src/index.ts</code> */}
-      </Subtitle>
-      <CardContainer>
-        {state.error && (
-          <ErrorMessage>
-            <b>An error happened:</b> {state.error.message}
-          </ErrorMessage>
-        )}
-        {!state.isFlask && (
-          <Card
-            content={{
-              title: 'Install',
-              description:
-                'Snaps is pre-release software only available in MetaMask Flask, a canary distribution for developers with access to upcoming features.',
-              button: <InstallFlaskButton />,
-            }}
-            fullWidth
-          />
-        )}
-        {!state.installedSnap && (
-          <Card
-            content={{
-              title: 'Connect',
-              description:
-                'Get started by connecting to and installing the example snap.',
-              button: (
-                <ConnectButton
-                  onClick={handleConnectClick}
-                  disabled={!state.installedSnap}
-                />
-              ),
-            }}
-            disabled={!state.installedSnap}
-          />
-        )}
-        {/* {shouldDisplayReconnectButton(state.installedSnap) && (
+      <Container>
+        <Heading>
+          Welcome to <Span>EtherEyes</Span>
+        </Heading>
+        <Subtitle>
+          {/* Get started by editing <code>src/index.ts</code> */}
+        </Subtitle>
+        <CardContainer>
+          {state.error && (
+            <ErrorMessage>
+              <b>An error happened:</b> {state.error.message}
+            </ErrorMessage>
+          )}
+          {!state.isFlask && (
+            <Card
+              content={{
+                title: 'Install',
+                description:
+                  'Snaps is pre-release software only available in MetaMask Flask, a canary distribution for developers with access to upcoming features.',
+                button: <InstallFlaskButton />,
+              }}
+              fullWidth
+            />
+          )}
+          {!state.installedSnap && (
+            <Card
+              content={{
+                title: 'Connect',
+                description:
+                  'Get started by connecting to and installing the example snap.',
+                button: (
+                  <ConnectButton
+                    onClick={handleConnectClick}
+                    disabled={!state.installedSnap}
+                  />
+                ),
+              }}
+              disabled={!state.installedSnap}
+            />
+          )}
+          {/* {shouldDisplayReconnectButton(state.installedSnap) && (
           <Card
             content={{
               title: 'Reconnect',
@@ -355,89 +363,89 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )} */}
-        <Card
-          content={{
-            title: 'Send Transaction',
-            description:
-              'Display a custom txn within a confirmation screen in MetaMask.',
-            button: (
-              <SendHelloButton
-                onClick={handleSendTxn}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            state.isFlask &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        />
-        <Card
-          content={{
-            title: 'Get current gas fees',
-            description: 'Display a notification with current gas fees',
-            button: (
-              <SendHelloButton
-                onClick={callApi}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            state.isFlask &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        />
-        <CardUrgency
-          content={{
-            title: 'Urgency',
-            description: 'Describe the urgency of your transaction.',
-            button1: (
-              <UrgencyButton
-                onClick={() => handleUrgency('30')}
-                disabled={!state.installedSnap}
-                title="Less Urgent"
-                enabled={urgencyValue === '30' ? true : false}
-              />
-            ),
-            button2: (
-              <UrgencyButton
-                onClick={() => handleUrgency('60')}
-                disabled={!state.installedSnap}
-                title="Moderately Urgent"
-                enabled={urgencyValue === '60' ? true : false}
-              />
-            ),
-            button3: (
-              <UrgencyButton
-                onClick={() => handleUrgency('90')}
-                disabled={!state.installedSnap}
-                title="Very Urgent"
-                enabled={urgencyValue === '90' ? true : false}
-              />
-            ),
-            button4: (
-              <UrgencyButton
-                onClick={() => handleUrgency('100')}
-                disabled={!state.installedSnap}
-                title="Immediate Transaction"
-                enabled={urgencyValue === '100' ? true : false}
-              />
-            ),
-            urgencyValue: `${urgencyValue}`,
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            state.isFlask &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
-        />
-        {/* <Card
+          <Card
+            content={{
+              title: 'Send Transaction',
+              description:
+                'Display a custom txn within a confirmation screen in MetaMask.',
+              button: (
+                <SendHelloButton
+                  onClick={handleSendTxn}
+                  disabled={!state.installedSnap}
+                />
+              ),
+            }}
+            disabled={!state.installedSnap}
+            fullWidth={
+              state.isFlask &&
+              Boolean(state.installedSnap) &&
+              !shouldDisplayReconnectButton(state.installedSnap)
+            }
+          />
+          <Card
+            content={{
+              title: 'Get current gas fees',
+              description: 'Display a notification with current gas fees',
+              button: (
+                <SendHelloButton
+                  onClick={callApi}
+                  disabled={!state.installedSnap}
+                />
+              ),
+            }}
+            disabled={!state.installedSnap}
+            fullWidth={
+              state.isFlask &&
+              Boolean(state.installedSnap) &&
+              !shouldDisplayReconnectButton(state.installedSnap)
+            }
+          />
+          <CardUrgency
+            content={{
+              title: 'Urgency',
+              description: 'Describe the urgency of your transaction.',
+              button1: (
+                <UrgencyButton
+                  onClick={() => handleUrgency('30')}
+                  disabled={!state.installedSnap}
+                  title="Less Urgent"
+                  enabled={urgencyValue === '30' ? true : false}
+                />
+              ),
+              button2: (
+                <UrgencyButton
+                  onClick={() => handleUrgency('60')}
+                  disabled={!state.installedSnap}
+                  title="Moderately Urgent"
+                  enabled={urgencyValue === '60' ? true : false}
+                />
+              ),
+              button3: (
+                <UrgencyButton
+                  onClick={() => handleUrgency('90')}
+                  disabled={!state.installedSnap}
+                  title="Very Urgent"
+                  enabled={urgencyValue === '90' ? true : false}
+                />
+              ),
+              button4: (
+                <UrgencyButton
+                  onClick={() => handleUrgency('100')}
+                  disabled={!state.installedSnap}
+                  title="Immediate Transaction"
+                  enabled={urgencyValue === '100' ? true : false}
+                />
+              ),
+              urgencyValue: `${urgencyValue}`,
+            }}
+            disabled={!state.installedSnap}
+            fullWidth={
+              state.isFlask &&
+              Boolean(state.installedSnap) &&
+              !shouldDisplayReconnectButton(state.installedSnap)
+            }
+          />
+          {/* <Card
           content={{
             title: 'Start cron job',
             description:
@@ -456,40 +464,39 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         /> */}
-      </CardContainer>
+        </CardContainer>
       </Container>
-      <ReloadButton
-        onClick={handleReload}
-        style ={{margin:'auto'}}
-      />
-      {!loading?<CChart
-        type="line" 
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              label: "Gas Price: ",
-              backgroundColor: "rgba(220, 220, 220, 0.2)",
-              borderColor: "rgba(220, 220, 220, 1)",
-              pointBackgroundColor: "rgba(220, 220, 220, 1)",
-              pointBorderColor: "#fff",
-              data: datasets
-            },
-          ],
-        }}
-      /> :
-        <div style={{margin:'auto'}}>
-      <ColorRing
-        visible={true}
-        height="50vh"
-        width="80"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      /></div>}
-
-
+      <ReloadButton onClick={handleReload} style={{ margin: 'auto' }} />
+      {!loading ? (
+        <CChart
+          type="line"
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                label: 'Gas Price: ',
+                backgroundColor: 'rgba(220, 220, 220, 0.2)',
+                borderColor: 'rgba(220, 220, 220, 1)',
+                pointBackgroundColor: 'rgba(220, 220, 220, 1)',
+                pointBorderColor: '#fff',
+                data: datasets,
+              },
+            ],
+          }}
+        />
+      ) : (
+        <div style={{ margin: 'auto' }}>
+          <ColorRing
+            visible={true}
+            height="50vh"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+          />
+        </div>
+      )}
     </>
   );
 };

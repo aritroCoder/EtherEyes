@@ -1,6 +1,6 @@
 # EtherEyes
 
-This snap will enable the metamask users to forecast the gas prices and plan their transactions beforehand.
+Enables users to make cheaper transactions by predicting the gas price and providing timely gas price notifications.
 
 #### Improved cost efficiency:
 
@@ -10,17 +10,14 @@ Knowing the expected gas price in advance allows users to make informed decision
 
 Predictive models can help project future gas prices, allowing businesses and individuals to plan accordingly and minimize any potential negative impact on their operations.
 
-#### Improved investor confidence:
-
-For investors and traders, being able to predict gas prices can provide a deeper understanding of the market and increase confidence in their investments.
-
 ## Features
 
 - Notification about current gas prices
-- Dark theme available
-- Notification toggle
+- Suggests user to buy when lowest gas price reached
+- Set urgency of your transaction
+- Toggle Notifications
 - Graphical data representaion of gas prices
-- You can set the urgency of your transaction
+- Dark theme :)
 
 ## Installation
 
@@ -75,7 +72,7 @@ Starting the python server
 
 ```bash
 cd ~/Desktop/transaction-insights/
-uvicorn fastserver:app --reload --port 5000
+uvicorn server:app --reload --port 5000
 ```
 
 Open a new terminal to start yarn server
@@ -105,8 +102,6 @@ We then use a popular time series forecasting model called SARIMA or Seasonal AR
 - A lot of literature on SARIMA for time-series forecasting in varying domains ([[1]](#1),[[2]](#2),[[3]](#3)) stated that the performance of SARIMA is good. We also referred to a study on ethereum gas price statistics [[4]](#4), where they used SARIMA and obtained promising results.
 - An alternative would be deep learning techniques which usually involve larger models which also take more time to re-train hence making it less ideal for streaming data.
 
-### Performance
-
 ## Authors
 
 This project is built for inter IIT Tech meet 11 by the team of Institute ID: 23
@@ -123,4 +118,4 @@ Dynamic linear model and SARIMA: a comparison of their forecasting performance i
 Long-term runoff study using SARIMA and ARIMA models in the United States. https://doi.org/10.1002/met.1491
 
 <a id="4">[4]</a>
-Carl, David and Ewerhart, Christian, Ethereum Gas Price Statistics (December 22, 2020). University of Zurich, Department of Economics, Working Paper No. 373, 2020, Available at SSRN: https://ssrn.com/abstract=3754217 or http://dx.doi.org/10.2139/ssrn.3754217
+Carl, David and Ewerhart, Christian, Ethereum Gas Price Statistics (December 22, 2020). University of Zurich, Department of Economics, Working Paper No. 373, 2020, Available at: http://dx.doi.org/10.2139/ssrn.3754217
