@@ -1,6 +1,6 @@
 # EtherEyes
 
-This snap will enable the metamask users to forecast the gas prices and plan their transactions beforehand.
+Enables users to make cheaper transactions by predicting the gas price and providing timely gas price notifications.
 
 #### Improved cost efficiency:
 
@@ -10,18 +10,14 @@ Knowing the expected gas price in advance allows users to make informed decision
 
 Predictive models can help project future gas prices, allowing businesses and individuals to plan accordingly and minimize any potential negative impact on their operations.
 
-#### Improved investor confidence:
-
-For investors and traders, being able to predict gas prices can provide a deeper understanding of the market and increase confidence in their investments.
-
 ## Features
 
 - Notification about current gas prices
 - Suggests user to buy when lowest gas price reached
-- Dark theme available
-- Notification toggle
+- Set urgency of your transaction
+- Toggle Notifications
 - Graphical data representaion of gas prices
-- You can set the urgency of your transaction
+- Dark theme :)
 
 ## Installation
 
