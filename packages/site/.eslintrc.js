@@ -3,9 +3,10 @@ module.exports = {
 
   overrides: [
     {
-      files: ['**/*.{ts,tsx}'],
+      files: ['**/*.{ts,tsx}', '**/*.d.ts'],
       rules: {
         'jsdoc/require-jsdoc': 0,
+        'import/unambiguous': 'off',
       },
     },
   ],

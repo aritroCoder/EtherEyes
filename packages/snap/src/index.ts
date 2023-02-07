@@ -227,7 +227,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         },
       });
       const current = await currentData.json();
-      if (Math.abs(current.speeds[0].baseFee - lowEth) < urgency/38 ) {
+      if (Math.abs(current.speeds[0].baseFee - lowEth) < urgency / 38) {
         return wallet.request({
           method: 'snap_notify',
           params: [
@@ -291,7 +291,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           },
         });
         const current = await currentData.json();
-        if (Math.abs(current.speeds[0].baseFee - lowEth) < urgency/38 ) {
+        if (Math.abs(current.speeds[0].baseFee - lowEth) < urgency / 38) {
           return wallet.request({
             method: 'snap_notify',
             params: [
