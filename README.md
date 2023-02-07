@@ -1,5 +1,7 @@
 # EtherEyes
 
+![Ethereyes logo](https://user-images.githubusercontent.com/92646038/217149434-7099535c-81eb-40d4-99ed-62b12d4dbfd4.png)
+
 Enables users to make cheaper transactions by predicting the gas price and providing timely gas price notifications.
 
 #### Improved cost efficiency:
@@ -42,11 +44,7 @@ This will prevent any dependency conflicts with your global level python install
 Installing requried libraries:
 
 ```bash
-pip install "fastapi[all]"
-pip install anyio
-pip install numpy
-pip install statsforecast
-pip install requests
+pip install -r requirements.txt
 ```
 
 Setting up servers
