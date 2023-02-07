@@ -44,11 +44,7 @@ This will prevent any dependency conflicts with your global level python install
 Installing requried libraries:
 
 ```bash
-pip install "fastapi[all]"
-pip install anyio
-pip install numpy
-pip install statsforecast
-pip install requests
+pip install -r requirements.txt
 ```
 
 Setting up servers
