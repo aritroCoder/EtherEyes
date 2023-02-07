@@ -56,7 +56,7 @@ git clone https://github.com/aritroCoder/transaction-insights.git
 
 #### Setting up config
 
-Create a file named `key.json` in `transaction-insights/` directory, and write in the file (Create an API key from https://owlracle.info/eth and paste it in place of `your_key`)
+Open the file named `key.json` in `transaction-insights/` directory, and write in the file (Create an API key from https://owlracle.info/eth and paste it in place of `your_key`)
 
 ```json
 {
@@ -64,7 +64,7 @@ Create a file named `key.json` in `transaction-insights/` directory, and write i
 }
 ```
 
-Then copy this file to `transaction-insights/packages/snap/` and `transaction-insights/packages/site/src/` directories
+Then copy and replace(when prompted) this file to `transaction-insights/packages/snap/` and `transaction-insights/packages/site/src/` directories
 
 Starting the python server
 
