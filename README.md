@@ -2,7 +2,7 @@
 
 ![Ethereyes logo](https://user-images.githubusercontent.com/92646038/217149434-7099535c-81eb-40d4-99ed-62b12d4dbfd4.png)
 
-Presenting before you EtherEyes, an ***award winning*** hackathon project that enables users to make cheaper transactions by predicting the gas price and providing timely gas price notifications.
+Presenting before you EtherEyes, an **_award winning_** hackathon project that enables users to make cheaper transactions by predicting the gas price and providing timely gas price notifications.
 
 #### Improved cost efficiency:
 
@@ -102,7 +102,7 @@ We then use a popular time series forecasting model called SARIMA or Seasonal AR
 
 ## Authors
 
-This project is built for inter IIT Tech meet 11 by the team of Institute ID: 23(IIT Patna), and was awarded a ***bronze medal*** by Consensys.
+This project is built for inter IIT Tech meet 11 by the team of Institute ID: 23(IIT Patna), and was awarded a **_bronze medal_** by Consensys.
 
 ## References
 
