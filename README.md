@@ -104,6 +104,7 @@ We then use a popular time series forecasting model called SARIMA or Seasonal AR
 
 This project is built for inter IIT Tech meet 11 by the team of Institute ID: 23(IIT Patna), and was awarded a **_bronze medal_** by Consensys.
 Team members:
+
 - [Vaishakh](https://github.com/Vaishakh-SM)
 - [Aritra](https://github.com/aritroCoder)
 - [Padmaksh](https://github.com/Padmaksh-Mishra)
