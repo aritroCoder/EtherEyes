@@ -69,12 +69,12 @@ export const Header = ({
       (async () => {
         const notif = await window.ethereum.request({
           method: 'wallet_invokeSnap',
-          params: [
-            defaultSnapOrigin,
-            {
+          params: {
+            snapId: defaultSnapOrigin,
+            request: {
               method: 'notif_toggle_false',
             },
-          ],
+          },
         });
         setEnableNotifications(false);
       })();
@@ -87,22 +87,22 @@ export const Header = ({
     if (!enableNotifications) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
             method: 'notif_toggle_true',
           },
-        ],
+        },
       });
     } else {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
             method: 'notif_toggle_false',
           },
-        ],
+        },
       });
     }
     setEnableNotifications(!enableNotifications);

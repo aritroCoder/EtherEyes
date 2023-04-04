@@ -5,6 +5,7 @@ import {
 import { OnCronjobHandler } from '@metamask/snaps-types';
 import { hasProperty, isObject } from '@metamask/utils';
 import jsonData from '../key.json';
+import { panel, heading, text } from '@metamask/snaps-ui';
 
 // Transaction Urgency
 let urgency = 60;
@@ -32,9 +33,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: { operation: 'get' },
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -46,9 +47,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       }
       state.notifToggle = true;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: { operation: 'update', newState: state },
       });
 
       return notifToggle;
@@ -61,9 +62,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: { operation: 'get' },
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -75,9 +76,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       }
       state.notifToggle = false;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: { operation: 'update', newState: state },
       });
 
       return notifToggle;
@@ -88,9 +89,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: { operation: 'get' },
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -102,9 +103,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       }
       state.urgency = 35;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: {operation: 'update', newState: state},
       });
 
       return urgency;
@@ -115,9 +116,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: {operation: 'get'},
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -129,9 +130,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       }
       state.urgency = 60;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: {operation: 'update', newState: state},
       });
 
       return urgency;
@@ -142,9 +143,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: {operation:'get'},
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -156,9 +157,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       }
       state.urgency = 90;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: {operation: 'update', newState: state},
       });
 
       return urgency;
@@ -169,9 +170,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: {operation: 'get'},
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -183,9 +184,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       }
       state.urgency = 100;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: {operation: 'update', newState: state},
       });
 
       return urgency;
@@ -195,9 +196,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       // get data from state whenever snap is invoked as snaps executions are ephemeral
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: {operation: 'get'},
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -212,9 +213,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       urgency = state.urgency;
       lowEth = state.lowEth;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: {operation: 'update', newState: state},
       });
 
       console.log(
@@ -228,24 +229,20 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       });
       const current = await currentData.json();
       if (Math.abs(current.speeds[0].baseFee - lowEth) < urgency / 38) {
-        return wallet.request({
+        return snap.request({
           method: 'snap_notify',
-          params: [
-            {
+          params:{
               type: 'native',
               message: `Gasfee is low! Pay now at ${current.speeds[0].baseFee} Gwei`,
             },
-          ],
         });
       }
-      return wallet.request({
+      return snap.request({
         method: 'snap_notify',
-        params: [
-          {
+        params:{
             type: 'native',
             message: `Current gasfee is ${current.speeds[0].baseFee} Gwei`,
           },
-        ],
       });
     }
 
@@ -261,9 +258,9 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
       // get data from state whenever snap is invoked as snaps executions are ephemeral
       let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-      state = (await wallet.request({
+      state = (await snap.request({
         method: 'snap_manageState',
-        params: ['get'],
+        params: {operation: 'get'},
       })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
       if (!state) {
@@ -277,9 +274,9 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
       urgency = state.urgency;
       lowEth = state.lowEth;
 
-      await wallet.request({
+      await snap.request({
         method: 'snap_manageState',
-        params: ['update', state],
+        params: {operation: 'update', newState: state},
       });
 
       console.log({ notifToggle });
@@ -292,24 +289,20 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
         });
         const current = await currentData.json();
         if (Math.abs(current.speeds[0].baseFee - lowEth) < urgency / 38) {
-          return wallet.request({
+          return snap.request({
             method: 'snap_notify',
-            params: [
-              {
+            params: {
                 type: 'native',
                 message: `Gasfee is low! Pay now at ${current.speeds[0].baseFee} Gwei`,
               },
-            ],
           });
         }
-        return wallet.request({
+        return snap.request({
           method: 'snap_notify',
-          params: [
-            {
+          params: {
               type: 'native',
               message: `Current gasfee is ${current.speeds[0].baseFee} Gwei`,
             },
-          ],
         });
       }
       return 0; // basically do nothing
@@ -323,9 +316,9 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
   let state: { notifToggle: boolean; urgency: number; lowEth: number };
 
-  state = (await wallet.request({
+  state = (await snap.request({
     method: 'snap_manageState',
-    params: ['get'],
+    params: {operation: 'get'},
   })) as { notifToggle: boolean; urgency: number; lowEth: number };
 
   if (!state) {
@@ -372,42 +365,59 @@ export const onTransaction: OnTransactionHandler = async ({ transaction }) => {
 
   state.lowEth = Math.min(data.low_30_minutes, data.low_60_minutes);
 
-  await wallet.request({
+  await snap.request({
     method: 'snap_manageState',
-    params: ['update', state],
+    params: {operation: 'update', newState: state},
   });
 
-  insights = {
-    'Average Gas Limit': `Current value: ${current.avgGas}`,
+  insights = [
+    {
+      value: `__Average Gas Limit: Current value:__ ${current.avgGas}`,
+    },
+    
+    {
+      value: `__Estimated current gas price: Current value (Base + Priority):__ ${
+        current.speeds[0].baseFee + current.speeds[0].maxPriorityFeePerGas
+      } GWei; Base Fee: ${current.speeds[0].baseFee} GWei`,
+    },
+    
+    {
+      value: `__Forecasted Avg Gas price (for the next 30 mins):__ 
+      Gas price within 30 minutes is expected to get as low as: ${data.low_30_minutes} GWei`,
+    },
 
-    'Estimated current gas price': `Current value (Base + Priority): ${
-      current.speeds[0].baseFee + current.speeds[0].maxPriorityFeePerGas
-    } GWei; Base Fee: ${current.speeds[0].baseFee} GWei`,
+    {  
+      value: `__Forecasted Avg Gas price (for the next 60 mins): Gas price within 60 minutes is expected to get as low as:__ ${Math.min(
+          data.low_30_minutes,
+          data.low_60_minutes,
+        )} GWei`,
+    },
 
-    'Forecasted Avg Gas price (for the next 30 mins)': `
-    Gas price within 30 minutes is expected to get as low as: ${data.low_30_minutes} GWei`,
+    {
+      value: `__Expected savings in 30 mins (For average gas limit):__ 
+      ${
+        current.avgGas *
+        (current.speeds[0].baseFee +
+          current.speeds[0].maxPriorityFeePerGas -
+          data.low_30_minutes)
+      } GWei`,
+    },
 
-    'Forecasted Avg Gas price (for the next 60 mins)': `Gas price within 60 minutes is expected to get as low as: ${Math.min(
-      data.low_30_minutes,
-      data.low_60_minutes,
-    )} GWei`,
-
-    'Expected savings in 30 mins (For average gas limit)': `
-    ${
-      current.avgGas *
-      (current.speeds[0].baseFee +
-        current.speeds[0].maxPriorityFeePerGas -
-        data.low_30_minutes)
-    } GWei`,
-
-    'Expected savings in 60 mins (For average gas limit)': `${
+    {
+      value: `__Expected savings in 60 mins (For average gas limit):__ ${
       current.avgGas *
       (current.speeds[0].baseFee +
         current.speeds[0].maxPriorityFeePerGas -
         Math.min(data.low_30_minutes, data.low_60_minutes))
-    } GWei
-    `,
-  };
+      } GWei`,
+    },
+  ];
 
-  return { insights };
+  return {
+    content: panel([
+      heading('My Transaction Insights'),
+      text('Here are the insights:'),
+      ...(insights.map((insight: {value: string})=>text(insight.value)))
+    ])
+  };
 };

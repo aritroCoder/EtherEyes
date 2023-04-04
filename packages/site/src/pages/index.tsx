@@ -175,60 +175,48 @@ const Index = () => {
     if (value == 30) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
             method: 'set_urgency_35',
-            params: {
-              urgency: value,
-            },
           },
-        ],
+        },
       });
     }
 
     if (value == 60) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
             method: 'set_urgency_60',
-            params: {
-              urgency: value,
-            },
           },
-        ],
+        },
       });
     }
 
     if (value == 90) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
             method: 'set_urgency_90',
-            params: {
-              urgency: value,
-            },
           },
-        ],
+        },
       });
     }
 
     if (value == 100) {
       await window.ethereum.request({
         method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
+        params: {
+          snapId: defaultSnapOrigin,
+          request: {
             method: 'set_urgency_100',
-            params: {
-              urgency: value,
-            },
           },
-        ],
+      },
       });
     }
   }
@@ -236,13 +224,13 @@ const Index = () => {
   async function callApi() {
     try {
       await window.ethereum.request({
-        method: 'wallet_invokeSnap',
-        params: [
-          defaultSnapOrigin,
-          {
-            method: 'call_api',
-          },
-        ],
+         method: 'wallet_invokeSnap', 
+         params: {
+           snapId: defaultSnapOrigin,
+           request: {
+             method: 'call_api',
+           }
+         },
       });
     } catch (e) {
       dispatch({ type: MetamaskActions.SetError, payload: e });

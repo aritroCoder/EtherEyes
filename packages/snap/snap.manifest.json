@@ -7,7 +7,7 @@
     "url": "https://github.com/aritroCoder/transaction-insights.git"
   },
   "source": {
-    "shasum": "fJDQ4+YMzMSWt+V0SJ68fPQfcMXiPBAn/38KtOkGtvg=",
+    "shasum": "m8RGJVWPawngLO0DajCIlO/zOwTDP1EjHqEba/BLdQY=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -18,6 +18,10 @@
     }
   },
   "initialPermissions": {
+    "endowment:rpc": {
+      "dapps": true,
+      "snaps": false
+    },
     "endowment:transaction-insight": {},
     "endowment:network-access": {},
     "snap_manageState": {},
