@@ -4,6 +4,8 @@
 
 Presenting before you EtherEyes, an **_award winning_** hackathon project that enables users to make cheaper transactions by predicting the gas price and providing timely gas price notifications.
 
+View our pulished blog where we discuss more of the technical details involved: ![Ethereyes blog](https://metamask.io/news/developers/ether-eyes-snap-predicting-future-gas-prices/).
+
 #### Improved cost efficiency:
 
 Knowing the expected gas price in advance allows users to make informed decisions on when to execute transactions. This can help reduce costs and increase overall efficiency by avoiding times of high gas prices.
